@@ -7,6 +7,17 @@ const NewSimulationForm = ({ onClose }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		// Handle form submission
+		fetch("/api/new-sim", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				project_name: event.target.elements["name"].value,
+				target_segment: event.target.elements["segment"].value,
+				key_features: event.target.elements["features"].value,
+				market_conditions: event.target.elements["market"].value,
+				compliance_notes: event.target.elements["compliance"].value,
+			}),
+		});
 		onClose(); // Close modal after submission
 	};
 
