@@ -47,4 +47,8 @@
 // 	];
 
 
-export const simulations = JSON.parse((await fetch('/api/get-all-sims')).values());
+export const simulations = JSON.parse(
+	(await fetch('/api/get-all-sims', {
+		port: 40443, // change this
+	})).json().values()
+);
