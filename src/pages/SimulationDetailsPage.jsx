@@ -53,37 +53,36 @@ const SimulationDetailsPage = () => {
 							Delete Simulation
 						</Button>
 					</div>
-
-					<TitleCard title={simulation.name}>
-						<p>{simulation.segment}</p>
+					<TitleCard title={simulation.project_name}>
+						<p>{simulation.target_segment}</p>
 					</TitleCard>
 
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 						<SimulationDetailsItem
 							title="Market Fit Score"
-							content={`${simulation.marketFitScore} / 10`}
+							content={`${simulation.sim_results.market_fit} / 10`}
 						/>
 						<SimulationDetailsItem
 							title="Risk Level"
-							content={simulation.riskLevel}
+							content={simulation.sim_results.risk_level}
 							type="risk"
 						/>
 						<SimulationDetailsItem
 							title="Compliance Status"
-							content={simulation.complianceStatus}
+							content={simulation.sim_results.compliance_status.category}
 							type="compliance"
 						/>
 						<SimulationDetailsItem
 							title="Key Features"
-							content={simulation.keyFeatures}
+							content={simulation.key_features}
 						/>
 						<SimulationDetailsItem
 							title="Market Conditions"
-							content={simulation.marketConditions}
+							content={simulation.market_conditions}
 						/>
 						<SimulationDetailsItem
 							title="Compliance Notes"
-							content={simulation.complianceNotes}
+							content={simulation.compliance_notes}
 						/>
 					</div>
 				</div>
