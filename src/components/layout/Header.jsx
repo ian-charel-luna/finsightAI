@@ -29,7 +29,7 @@ export const Header = ({ onNewSimulationClick }) => {
 					<div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
 						{/* Action Buttons */}
 						<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-							<Button variant="outline" size="md">
+							<Button variant="outline" size="md" onClick="print()">
 								<FileText className="h-4 w-4 mr-2" />
 								Executive Report
 							</Button>
