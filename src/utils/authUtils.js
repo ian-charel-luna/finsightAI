@@ -23,10 +23,6 @@ export const login = async (username, password) => {
     console.error(err)
   }
 
-  if (user) {
-    sessionStorage.setItem("user", JSON.stringify({username, password}));
-    return user;
-  }
   return null;
 };
 
