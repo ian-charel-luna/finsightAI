@@ -31,7 +31,7 @@ export const DashboardPage = () => {
 
 	// Apply search + compliance filter
 	const filteredSimulations = simulations.filter((sim) => {
-		const matchesSearch = sim.name
+		const matchesSearch = sim.project_name
 			.toLowerCase()
 			.includes(searchTerm.toLowerCase());
 		const matchesStatus =
@@ -100,15 +100,15 @@ export const DashboardPage = () => {
 				>
 					{filteredSimulations.map((sim) => (
 						<SimulationCard
-							key={sim.id}
-							id={sim.id}
-							name={sim.name}
-							segment={sim.segment}
-							marketFitScore={sim.marketFitScore}
-							riskLevel={sim.riskLevel}
-							complianceStatus={sim.complianceStatus}
-							progress={sim.progress}
-							lastUpdated={sim.lastUpdated}
+							key={sim.uuid}
+							id={sim.uuid}
+							name={sim.project_name}
+							segment={sim.target_segment}
+							marketFitScore={sim.sim_results.market_fit}
+							riskLevel={sim.sim_results.risk_level}
+							complianceStatus={sim.sim_results.compliance_status}
+							// lastUpdated={sim.lastUpdated}
+							lastUpdated="now"
 						/>
 					))}
 				</section>
