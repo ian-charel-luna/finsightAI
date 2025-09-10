@@ -6,7 +6,7 @@ export const getComplianceColor = (status) => {
     passed: "bg-green-100 text-green-700",
     failed: "bg-red-100 text-red-700",
     pending: "bg-yellow-100 text-yellow-700",
-  }[status] || "bg-gray-100 text-gray-600";
+  }[status.toLowerCase()] || "bg-gray-100 text-gray-600";
 };
 
 export const getRiskColor = (risk) => {
@@ -14,7 +14,7 @@ export const getRiskColor = (risk) => {
     low: "bg-green-100 text-green-700",
     medium: "bg-yellow-100 text-yellow-700",
     high: "bg-red-100 text-red-700",
-  }[risk] || "bg-gray-100 text-gray-600";
+  }[risk.toLowerCase()] || "bg-gray-100 text-gray-600";
 };
 
 export const getStatusTextColor = (status) => {
@@ -23,7 +23,7 @@ export const getStatusTextColor = (status) => {
     passed: "text-green-600",
     pending: "text-yellow-600",
     failed: "text-red-600",
-  }[status] || "text-gray-600";
+  }[status.toLowerCase()] || "text-gray-600";
 };
 
 //Icons
