@@ -10,14 +10,14 @@ import NewSimulationForm from "../components/forms/NewSimulationForm";
 import RerunSimulationForm from "../components/forms/RerunSimulationForm";
 import DeleteSimulationForm from "../components/forms/DeleteSimulationForm";
 
-const SimulationDetailsPage = () => {
+const SimulationDetailsPage = ({ onLogout }) => {
 	const { id } = useParams();
 	const [simulation, setSimulation] = useState(null);
 
 	const navigate = useNavigate();
 
 	// track which modal is open
-	const [modalType, setModalType] = useState(null); // "new" | "rerun" | null
+	const [modalType, setModalType] = useState(null); // "new" | "rerun" | "delete" | null
 
 	const openModal = (type) => setModalType(type);
 	const closeModal = () => setModalType(null);
@@ -31,7 +31,10 @@ const SimulationDetailsPage = () => {
 
 	return (
 		<div className="bg-gray-50 min-h-screen">
-			<Header onNewSimulationClick={() => openModal("new")} />
+			<Header
+				onNewSimulationClick={() => openModal("new")}
+				onLogout={onLogout}
+			/>
 			<div className="container mx-auto px-20 py-8 space-y-8 flex flex-col">
 				<div className="max-w-6xl mx-auto p-6 space-y-6">
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -53,38 +56,41 @@ const SimulationDetailsPage = () => {
 							Delete Simulation
 						</Button>
 					</div>
-					<TitleCard title={simulation.project_name}>
-						<p>{simulation.target_segment}</p>
-					</TitleCard>
 
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-						<SimulationDetailsItem
-							title="Market Fit Score"
-							content={`${simulation.sim_results.market_fit} / 10`}
-						/>
-						<SimulationDetailsItem
-							title="Risk Level"
-							content={simulation.sim_results.risk_level}
-							type="risk"
-						/>
-						<SimulationDetailsItem
-							title="Compliance Status"
-							content={simulation.sim_results.compliance_status.category}
-							type="compliance"
-						/>
-						<SimulationDetailsItem
-							title="Key Features"
-							content={simulation.key_features}
-						/>
-						<SimulationDetailsItem
-							title="Market Conditions"
-							content={simulation.market_conditions}
-						/>
-						<SimulationDetailsItem
-							title="Compliance Notes"
-							content={simulation.compliance_notes}
-						/>
-					</div>
+					<section id="print-area">
+						<TitleCard title={simulation.name}>
+							<p>{simulation.segment}</p>
+						</TitleCard>
+
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
+							<SimulationDetailsItem
+								title="Market Fit Score"
+								content={`${simulation.sim_results.market_fit} / 10`}
+							/>
+							<SimulationDetailsItem
+								title="Risk Level"
+								content={simulation.sim_results.risk_level}
+								type="risk"
+							/>
+							<SimulationDetailsItem
+								title="Compliance Status"
+								content={simulation.sim_results.compliance_status.category}
+								type="compliance"
+							/>
+							<SimulationDetailsItem
+								title="Key Features"
+								content={simulation.key_features}
+							/>
+							<SimulationDetailsItem
+								title="Market Conditions"
+								content={simulation.market_conditions}
+							/>
+							<SimulationDetailsItem
+								title="Compliance Notes"
+								content={simulation.compliance_notes}
+							/>
+						</div>
+					</section>
 				</div>
 			</div>
 
