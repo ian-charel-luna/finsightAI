@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getSims } from "../utils/testData";
 import Header from "../components/layout/Header";
 import SimulationDetailsItem from "../components/ui/SimulationDetailsItem";
 import TitleCard from "../components/cards/TitleCard";
@@ -12,7 +11,21 @@ import DeleteSimulationForm from "../components/forms/DeleteSimulationForm";
 
 const SimulationDetailsPage = ({ onLogout }) => {
 	const { id } = useParams();
+	// data from backend
 	const [simulation, setSimulation] = useState(null);
+	useEffect(() => {
+		(async function () {
+			const fetchRes = await fetch(`/api/get-sim/${id}`, {
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem('token')}`
+				}
+			});
+
+			const json = await fetchRes.json();
+
+			setSimulations(json.data);
+		})()
+	});
 
 	const navigate = useNavigate();
 
@@ -22,10 +35,6 @@ const SimulationDetailsPage = ({ onLogout }) => {
 	const openModal = (type) => setModalType(type);
 	const closeModal = () => setModalType(null);
 
-	useEffect(async () => {
-		const found = await getSims().find((sim) => String(sim.id) === String(id));
-		setSimulation(found);
-	}, [id]);
 
 	if (!simulation) return <div className="p-4">Loading...</div>;
 
