@@ -4,22 +4,44 @@ import DescriptionCard from "../cards/DescriptionCard";
 import FormCard from "../cards/FormsCard";
 
 const NewSimulationForm = ({ onClose }) => {
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		// Handle form submission
-		fetch("/api/new-sim", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				project_name: event.target.elements["name"].value,
-				target_segment: event.target.elements["segment"].value,
-				key_features: event.target.elements["features"].value,
-				market_conditions: event.target.elements["market"].value,
-				compliance_notes: event.target.elements["compliance"].value,
-			}),
-		});
-		onClose(); // Close modal after submission
-	};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must be logged in to submit a simulation.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:62708/api/new-sim", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          project_name: e.target.elements["name"].value,
+          target_segment: e.target.elements["segment"].value,
+          key_features: e.target.elements["features"].value,
+          market_conditions: e.target.elements["market"].value,
+          compliance_notes: e.target.elements["compliance"].value,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(errorData.error || "Failed to create simulation.");
+        return;
+      }
+
+      const data = await response.json();
+      alert("Simulation created!");
+      onClose(); // Close modal after submission
+    } catch (err) {
+      alert("Network error. Please try again.");
+    }
+  };
 
 	return (
 		<div className="space-y-4">
