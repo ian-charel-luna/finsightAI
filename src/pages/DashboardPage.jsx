@@ -35,7 +35,7 @@ export const DashboardPage = ({ onLogout }) => {
 
 	// Calculate counts for each compliance status
 	const countByStatus = (status) =>
-		simulations.filter((sim) => sim.complianceStatus === status).length;
+		simulations.filter((sim) => sim.sim_results.compliance_status.category === status).length;
 
 	const totalCount = simulations.length;
 	const passedCount = countByStatus("passed");
@@ -48,7 +48,7 @@ export const DashboardPage = ({ onLogout }) => {
 			.toLowerCase()
 			.includes(searchTerm.toLowerCase());
 		const matchesStatus =
-			filterStatus === "all" || sim.complianceStatus === filterStatus;
+			filterStatus === "all" || sim.sim_results.compliance_status.category === filterStatus;
 		return matchesSearch && matchesStatus;
 	});
 
