@@ -6,8 +6,9 @@ import SimulationCard from "../components/cards/SimulationCard";
 import Modal from "../components/ui/Modal";
 import SimulationForm from "../components/forms/NewSimulationForm";
 import { getSims } from "../utils/testData";
+const simulations = await getSims();
 
-export const DashboardPage = async ({ onLogout }) => {
+export const DashboardPage = ({ onLogout }) => {
 	// FILTERS
 	const [searchTerm, setSearchTerm] = useState("");
 	const [viewMode, setViewMode] = useState("grid");
@@ -20,12 +21,12 @@ export const DashboardPage = async ({ onLogout }) => {
 
 	// Calculate counts for each compliance status
 	const countByStatus = async (status) =>
-		(await getSims()).filter((sim) => sim.complianceStatus === status).length;
+		simulations.filter((sim) => sim.complianceStatus === status).length;
 
 	const totalCount = simulations.length;
-	const passedCount = await countByStatus("passed");
-	const pendingCount = await countByStatus("pending");
-	const failedCount = await countByStatus("failed");
+	const passedCount = countByStatus("passed");
+	const pendingCount = countByStatus("pending");
+	const failedCount = countByStatus("failed");
 
 	// Apply search + compliance filter
 	const filteredSimulations = simulations.filter((sim) => {
