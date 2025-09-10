@@ -78,7 +78,7 @@ const SimulationDetailsPage = ({ onLogout }) => {
 							/>
 							<SimulationDetailsItem
 								title="Risk Level"
-								content={simulation.sim_results.risk_level}
+								content={simulation.sim_results.risk_level.category}
 								type="risk"
 							/>
 							<SimulationDetailsItem
