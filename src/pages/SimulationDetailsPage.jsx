@@ -74,7 +74,7 @@ const SimulationDetailsPage = ({ onLogout }) => {
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
 							<SimulationDetailsItem
 								title="Market Fit Score"
-								content={`${simulation.sim_results.market_fit} / 10`}
+								content={`${simulation.sim_results.market_fit.score} / 10`}
 							/>
 							<SimulationDetailsItem
 								title="Risk Level"
