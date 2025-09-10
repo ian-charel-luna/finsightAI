@@ -46,9 +46,13 @@
 // 		},
 // 	];
 
-export const getSims = () => {
-	const fetchResult = fetch('/api/get-all-sims', {
+export const getSims = async () => {
+	const fetchRes = await fetch('/api/get-all-sims', {
 		port: 62708
-	}).then(res => res.json())
-	.then(json => Object.values(json.data))
+	});
+
+	// console.log(await fetchRes.text());
+	// console.log(await fetchRes.json());
+
+	return await fetchRes.json();
 }
