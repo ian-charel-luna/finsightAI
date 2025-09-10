@@ -23,7 +23,7 @@ const SimulationDetailsPage = ({ onLogout }) => {
 
 			const json = await fetchRes.json();
 
-			setSimulations(json.data);
+			setSimulation(json.data);
 		})()
 	});
 
