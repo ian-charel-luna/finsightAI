@@ -74,19 +74,23 @@ const SimulationDetailsPage = ({ onLogout }) => {
 
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
 							<SimulationDetailsItem
-								title="Market Fit Score"
-								content={`${simulation.sim_results?.market_fit?.score ?? "N/A"} / 10`}
-							/>
-							<SimulationDetailsItem
-								title="Risk Level"
-								content={simulation.sim_results?.risk_level?.category ?? "N/A"}
-								type="risk"
-							/>
-							<SimulationDetailsItem
-								title="Compliance Status"
-								content={simulation.sim_results?.compliance_status?.category ?? "N/A"}
-								type="compliance"
-							/>
+                                title="Market Fit Score"
+                                content={`${simulation.sim_results?.market_fit?.score ?? "N/A"} / 10`}
+                                type="market_fit"
+                                justification={simulation.sim_results?.market_fit?.justification ?? "N/A"}
+                            />
+                            <SimulationDetailsItem
+                                title="Risk Level"
+                                content={simulation.sim_results?.risk_level?.category ?? "N/A"}
+                                type="risk"
+                                justification={simulation.sim_results?.risk_level?.justification ?? "N/A"}
+                            />
+                            <SimulationDetailsItem
+                                title="Compliance Status"
+                                content={simulation.sim_results?.compliance_status?.category ?? "N/A"}
+                                type="compliance"
+                                justification={simulation.sim_results?.compliance_status?.justification ?? "N/A"}
+                            />
 							<SimulationDetailsItem
 								title="Key Features"
 								content={simulation.key_features}
