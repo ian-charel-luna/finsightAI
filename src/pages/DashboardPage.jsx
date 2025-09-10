@@ -1,14 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/layout/Header";
 import FilterCard from "../components/cards/FilterCard";
 import SearchControls from "../components/ui/SearchControls";
 import SimulationCard from "../components/cards/SimulationCard";
 import Modal from "../components/ui/Modal";
 import SimulationForm from "../components/forms/NewSimulationForm";
-import { getSims } from "../utils/testData";
-const simulations = await getSims();
 
 export const DashboardPage = ({ onLogout }) => {
+	// data from backend
+	const [simulations, setSimulations] = useState([]);
+	useEffect(() => {
+		(async function () {
+			const fetchRes = await fetch('/api/get-all-sims', {
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem('token')}`
+				}
+			});
+
+			const json = await fetchRes.json();
+
+			setSimulations(Object.values(json.data));
+		})()
+	});
+
 	// FILTERS
 	const [searchTerm, setSearchTerm] = useState("");
 	const [viewMode, setViewMode] = useState("grid");
@@ -20,7 +34,7 @@ export const DashboardPage = ({ onLogout }) => {
 	const closeModal = () => setIsModalOpen(false);
 
 	// Calculate counts for each compliance status
-	const countByStatus = async (status) =>
+	const countByStatus = (status) =>
 		simulations.filter((sim) => sim.complianceStatus === status).length;
 
 	const totalCount = simulations.length;
@@ -92,25 +106,24 @@ export const DashboardPage = ({ onLogout }) => {
 				<section id="print-area">
 					<section
 						id="dashboard_main"
-						className={`grid ${
-							viewMode === "grid"
+						className={`grid ${viewMode === "grid"
 								? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
 								: "space-y-4"
-						}`}
+							}`}
 					>
 						{filteredSimulations.map((sim) => (
 							<SimulationCard
-								key={sim.id}
-								id={sim.id}
-								name={sim.name}
-								segment={sim.segment}
-								marketFitScore={sim.marketFitScore}
-								riskLevel={sim.riskLevel}
-								complianceStatus={sim.complianceStatus}
-								progress={sim.progress}
-								lastUpdated={sim.lastUpdated}
+								key={sim.uuid}
+								id={sim.uuid}
+								name={sim.project_name}
+								segment={sim.target_segment}
+								marketFitScore={sim.sim_results.market_fit.score}
+								riskLevel={sim.sim_results.risk_level.category}
+								complianceStatus={sim.sim_results.compliance_status.category}
+								lastUpdated={'12 minutes ago'}
 							/>
 						))}
+						
 					</section>
 				</section>
 			</div>
