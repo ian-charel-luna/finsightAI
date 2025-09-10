@@ -1,3 +1,4 @@
+// src/pages/SimulationDetailsPage.jsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/layout/Header";
@@ -25,7 +26,7 @@ const SimulationDetailsPage = ({ onLogout }) => {
 
 			setSimulation(json.data);
 		})()
-	});
+	}, []);
 
 	const navigate = useNavigate();
 
@@ -67,23 +68,23 @@ const SimulationDetailsPage = ({ onLogout }) => {
 					</div>
 
 					<section id="print-area">
-						<TitleCard title={simulation.name}>
-							<p>{simulation.segment}</p>
+						<TitleCard title={simulation.project_name}>
+							<p>{simulation.target_segment}</p>
 						</TitleCard>
 
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
 							<SimulationDetailsItem
 								title="Market Fit Score"
-								content={`${simulation.sim_results.market_fit.score} / 10`}
+								content={`${simulation.sim_results?.market_fit?.score ?? "N/A"} / 10`}
 							/>
 							<SimulationDetailsItem
 								title="Risk Level"
-								content={simulation.sim_results.risk_level.category}
+								content={simulation.sim_results?.risk_level?.category ?? "N/A"}
 								type="risk"
 							/>
 							<SimulationDetailsItem
 								title="Compliance Status"
-								content={simulation.sim_results.compliance_status.category}
+								content={simulation.sim_results?.compliance_status?.category ?? "N/A"}
 								type="compliance"
 							/>
 							<SimulationDetailsItem
