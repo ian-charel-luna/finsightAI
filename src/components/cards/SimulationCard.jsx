@@ -31,12 +31,12 @@ const SimulationCard = ({
 								style={{ width: `${(marketFitScore / 10) * 100}%` }}
 							></div>
 						</div>
-						<span className="text-sm font-semibold">{marketFitScore}/10</span>
+						<span className="text-sm font-semibold">{marketFitScore.score}/10</span>
 					</div>
 				</div>
 
 				<div className="flex items-center justify-between">
-					<RiskBadge risk={riskLevel} />
+					<RiskBadge risk={riskLevel.category} />
 					<span className="text-xs text-gray-500">Updated: {lastUpdated}</span>
 				</div>
 			</div>
