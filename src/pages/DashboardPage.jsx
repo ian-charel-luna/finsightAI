@@ -1,3 +1,4 @@
+// src/pages/DashboardPage.jsx
 import { useState, useEffect } from "react";
 import Header from "../components/layout/Header";
 import FilterCard from "../components/cards/FilterCard";
@@ -11,7 +12,7 @@ export const DashboardPage = ({ onLogout }) => {
 	const [simulations, setSimulations] = useState([]);
 	useEffect(() => {
 		(async function () {
-			const fetchRes = await fetch('/api/get-all-sims', {
+			const fetchRes = await fetch('http://localhost:62708/api/get-all-sims', {
 				headers: {
 					'Authorization': `Bearer ${localStorage.getItem('token')}`
 				}
@@ -21,7 +22,7 @@ export const DashboardPage = ({ onLogout }) => {
 
 			setSimulations(Object.values(json.data));
 		})()
-	});
+	}, []);
 
 	// FILTERS
 	const [searchTerm, setSearchTerm] = useState("");
@@ -35,7 +36,12 @@ export const DashboardPage = ({ onLogout }) => {
 
 	// Calculate counts for each compliance status
 	const countByStatus = (status) =>
-		simulations.filter((sim) => sim.sim_results.compliance_status.category === status).length;
+	simulations.filter(
+		(sim) =>
+		sim.sim_results &&
+		sim.sim_results.compliance_status &&
+		sim.sim_results.compliance_status.category === status
+	).length;
 
 	const totalCount = simulations.length;
 	const passedCount = countByStatus("passed");
@@ -44,12 +50,15 @@ export const DashboardPage = ({ onLogout }) => {
 
 	// Apply search + compliance filter
 	const filteredSimulations = simulations.filter((sim) => {
-		const matchesSearch = sim.project_name
-			.toLowerCase()
-			.includes(searchTerm.toLowerCase());
-		const matchesStatus =
-			filterStatus === "all" || sim.sim_results.compliance_status.category === filterStatus;
-		return matchesSearch && matchesStatus;
+	const matchesSearch = sim.project_name
+		.toLowerCase()
+		.includes(searchTerm.toLowerCase());
+	const matchesStatus =
+		filterStatus === "all" ||
+		(sim.sim_results &&
+		sim.sim_results.compliance_status &&
+		sim.sim_results.compliance_status.category === filterStatus);
+	return matchesSearch && matchesStatus;
 	});
 
 	//DASHBOARD LAYOUT
@@ -117,9 +126,9 @@ export const DashboardPage = ({ onLogout }) => {
 								id={sim.uuid}
 								name={sim.project_name}
 								segment={sim.target_segment}
-								marketFitScore={sim.sim_results.market_fit.score}
-								riskLevel={sim.sim_results.risk_level.category}
-								complianceStatus={sim.sim_results.compliance_status.category}
+								marketFitScore={sim.sim_results?.market_fit ?? { score: "N/A" }} // pass object
+								riskLevel={sim.sim_results?.risk_level ?? { category: "N/A" }}   // pass object
+								complianceStatus={sim.sim_results?.compliance_status ?? { category: "N/A" }} // pass object
 								lastUpdated={'12 minutes ago'}
 							/>
 						))}
