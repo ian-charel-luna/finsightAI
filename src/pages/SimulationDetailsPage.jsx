@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { simulations } from "../utils/testData";
+import { getSims } from "../utils/testData";
 import Header from "../components/layout/Header";
 import SimulationDetailsItem from "../components/ui/SimulationDetailsItem";
 import TitleCard from "../components/cards/TitleCard";
@@ -22,8 +22,8 @@ const SimulationDetailsPage = ({ onLogout }) => {
 	const openModal = (type) => setModalType(type);
 	const closeModal = () => setModalType(null);
 
-	useEffect(() => {
-		const found = simulations.find((sim) => String(sim.id) === String(id));
+	useEffect(async () => {
+		const found = await getSims().find((sim) => String(sim.id) === String(id));
 		setSimulation(found);
 	}, [id]);
 
